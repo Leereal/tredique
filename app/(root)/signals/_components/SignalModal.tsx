@@ -411,7 +411,7 @@ const SignalModal = ({
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-[50%] mx-auto"
+            className="submit-button "
           >
             {isSubmitting ? <Spinner /> : `Submit`}
           </Button>
