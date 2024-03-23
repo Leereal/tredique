@@ -64,9 +64,11 @@ const Sidebar = () => {
                 const isActive = link.route === pathname;
 
                 return (
-                  <AdminPermission skipPermission={!link.isAdmin}>
+                  <AdminPermission
+                    skipPermission={!link.isAdmin}
+                    key={link.route}
+                  >
                     <li
-                      key={link.route}
                       className={`sidebar-nav_element group ${
                         isActive
                           ? "bg-purple-gradient text-white"
