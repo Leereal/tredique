@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import { IBM_Plex_Sans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
+import { PrimeReactProvider } from "primereact/api";
 
 import "./globals.css";
+import "primereact/resources/themes/tailwind-light/theme.css";
+
 import { siteConfig } from "@/config/site";
 
 const IBMPlex = IBM_Plex_Sans({
@@ -32,11 +35,13 @@ export default function RootLayout({
         variables: { colorPrimary: "#624cf5" },
       }}
     >
-      <html lang="en">
-        <body className={cn("font-IBMPlex antialiased", IBMPlex.variable)}>
-          {children}
-        </body>
-      </html>
+      <PrimeReactProvider>
+        <html lang="en">
+          <body className={cn("font-IBMPlex antialiased", IBMPlex.variable)}>
+            {children}
+          </body>
+        </html>
+      </PrimeReactProvider>
     </ClerkProvider>
   );
 }

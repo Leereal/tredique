@@ -1,8 +1,6 @@
 import React from "react";
-import { auth } from "@clerk/nextjs";
 
-const Dashboard = () => {
-  const { sessionClaims } = auth();
+const Dashboard = async () => {
   return <div>Dashboard</div>;
 };
 
