@@ -8,6 +8,7 @@ const UserSchema = new Schema({
   photo: { type: String },
   planId: { type: Number, default: 1 },
   creditBalance: { type: Number, default: 10 },
+  role: { type: String, default: "User" },
   createdAt: { type: Date, default: Date.now },
 });
 

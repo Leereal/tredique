@@ -27,7 +27,7 @@ const EntryTypeDropdown = ({
       <SelectTrigger className="select-field">
         <SelectValue placeholder="Entry Type" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="z-[1200]">
         {entry_types.length > 0 &&
           entry_types.map((entry_type) => (
             <SelectItem

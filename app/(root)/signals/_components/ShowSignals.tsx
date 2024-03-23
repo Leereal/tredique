@@ -5,8 +5,15 @@ import SignalGroup from "./SignalGroup";
 import { ForexSignal } from "@/types";
 import { Button } from "@/components/ui/button";
 import SignalModal from "./SignalModal";
+import AdminPermission from "@/components/common/AdminPermission";
 
-const ShowSignals = ({ signals }: { signals: ForexSignal[] }) => {
+const ShowSignals = ({
+  signals,
+  userId,
+}: {
+  signals: ForexSignal[] | undefined;
+  userId: any;
+}) => {
   const [visible, setVisible] = useState(false);
   const [signal, setSignal] = useState({});
 
@@ -17,7 +24,7 @@ const ShowSignals = ({ signals }: { signals: ForexSignal[] }) => {
           signals={
             tab.value === "overview"
               ? signals
-              : signals.filter(
+              : signals?.filter(
                   (signal) => signal.signalCategory?.name === tab.value
                 )
           }
@@ -37,7 +44,11 @@ const ShowSignals = ({ signals }: { signals: ForexSignal[] }) => {
   return (
     <div>
       <div className="mb-3">
-        <Button onClick={() => setVisible(true)}>Create</Button>
+        <AdminPermission>
+          <Button className="submit-button" onClick={() => setVisible(true)}>
+            Create
+          </Button>
+        </AdminPermission>
       </div>
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>
@@ -49,7 +60,14 @@ const ShowSignals = ({ signals }: { signals: ForexSignal[] }) => {
         </TabsList>
         {renderTabs(tabs)}
       </Tabs>
-      <SignalModal visible={visible} setVisible={() => setVisible(false)} />
+      <AdminPermission>
+        <SignalModal
+          type="Create"
+          visible={visible}
+          setVisible={() => setVisible(false)}
+          userId={userId}
+        />
+      </AdminPermission>
     </div>
   );
 };

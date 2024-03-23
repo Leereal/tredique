@@ -14,7 +14,7 @@ const getSignalCategoryByName = async (name: string) => {
 };
 
 const populateSignal = (signalsQueryResults: any) => {
-  return signalsQueryResults
+  let query = signalsQueryResults
     .populate({
       path: "sender",
       model: User,
@@ -24,17 +24,24 @@ const populateSignal = (signalsQueryResults: any) => {
       path: "signalCategory",
       model: SignalCategory,
       select: "_id name",
-    })
-    .populate({
+    });
+
+  // Check if `Robot` is a path in any of the documents before populating
+  // This is a simplistic approach; for more complex cases, you might need to adjust the logic
+  if (Signal.schema.path("Robot")) {
+    query = query.populate({
       path: "Robot",
       model: Robot,
       select: "_id name",
       populate: {
-        path: "category", // Assuming 'robot' has a 'category' field to populate
-        model: "RobotCategory", // And 'Category' is the model name for categories
-        select: "name", // Selecting only the 'name' from the category
+        path: "category",
+        model: "RobotCategory",
+        select: "name",
       },
     });
+  }
+
+  return query;
 };
 
 // CREATE
@@ -44,7 +51,7 @@ export async function createSignal({
   path,
 }: {
   userId: string;
-  signal: CreateForexSignalParams;
+  signal: any;
   path: string;
 }) {
   try {
@@ -88,7 +95,7 @@ export async function updateSignal({
   path,
 }: {
   userId: string;
-  signal: UpdateForexSignalParams;
+  signal: any;
   path: string;
 }) {
   try {

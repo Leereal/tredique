@@ -15,7 +15,7 @@ import { signalFormSchema } from "@/lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signalDefaultValues } from "@/constants";
 import { Button as PButton } from "primereact/button";
-import { createSignal } from "@/lib/actions/signal.actions";
+import { createSignal, updateSignal } from "@/lib/actions/signal.actions";
 import { Input } from "@/components/ui/input";
 import { SymbolComboBox } from "@/components/common/SymbolComboBox";
 import SignalDropdown from "@/components/common/SignalDropdown";
@@ -28,91 +28,82 @@ import { cn } from "@/lib/utils";
 const SignalModal = ({
   visible,
   setVisible,
+  userId,
+  signal,
+  type,
 }: {
   visible: boolean;
   setVisible: () => void;
+  userId: string;
+  signal?: any;
+  type: string;
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const binary = true;
-  //   const initialValues =
-  //     signal && type === "Update"
-  //       ? {
-  //           ...signal,
-  //           signalCategoryId: signal.signalCategory._id,
-  //         }
-  //       : signalDefaultValues;
+  const initialValues =
+    signal && type === "Update"
+      ? {
+          ...signal,
+          signalCategoryId: signal.signalCategory._id,
+        }
+      : signalDefaultValues;
   const form = useForm<z.infer<typeof signalFormSchema>>({
     resolver: zodResolver(signalFormSchema),
-    defaultValues: signalDefaultValues as z.infer<typeof signalFormSchema>,
+    defaultValues: initialValues as z.infer<typeof signalFormSchema>,
   });
-
   async function onSubmit(values: z.infer<typeof signalFormSchema>) {
-    setIsSubmitting(true);
-    // if (type === "Create") {
-    //   try {
-    //     const newSignal = await createSignal({
-    //       signal: { ...values },
-    //       userId,
-    //       path: "/signals",
-    //     });
+    console.log("Values: ", values);
 
-    //     if (newSignal) {
-    //       getSignals();
-    //       form.reset();
-    //       setOpen(false);
-    //       router.push(`/signals`);
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //   } finally {
-    //     setIsLoading(false);
-    //   }
+    setIsSubmitting(true);
+    if (type === "Create") {
+      try {
+        const newSignal = await createSignal({
+          signal: { ...values },
+          userId,
+          path: "/signals",
+        });
+
+        if (newSignal) {
+          form.reset();
+          setVisible();
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
+
+    if (type === "Update") {
+      if (!signal._id) {
+        return;
+      }
+
+      try {
+        const updatedSignal = await updateSignal({
+          userId,
+          signal: { ...values },
+          path: `/signals`,
+        });
+
+        if (updatedSignal) {
+          form.reset();
+          setVisible();
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
   }
 
-  // if (type === "Update") {
-  //   if (!signalId) {
-  //     router.back();
-  //     return;
-  //   }
-
-  //   try {
-  //     const updatedSignal = await updateSignal({
-  //       userId,
-  //       signal: { ...values, _id: signalId },
-  //       path: `/signals`,
-  //     });
-
-  //     if (updatedSignal) {
-  //       getSignals();
-  //       form.reset();
-  //       setOpen(false);
-  //       router.push(`/signals`);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // }
-
-  const footerContent = (
-    <div>
-      <PButton
-        label="No"
-        icon="pi pi-times"
-        onClick={setVisible}
-        className="p-button-text"
-      />
-      <PButton label="Yes" icon="pi pi-check" onClick={setVisible} autoFocus />
-    </div>
-  );
   return (
     <Dialog
-      header="Header"
+      header="Signal"
       visible={visible}
       style={{ width: "50vw" }}
       onHide={setVisible}
-      footer={footerContent}
     >
       <Form {...form}>
         <form
@@ -153,7 +144,7 @@ const SignalModal = ({
                         onCheckedChange={field.onChange}
                         checked={field.value}
                         id="isBinary"
-                        className="mr-2 h-5 w-5 border-2 border-primary-500"
+                        className="mr-2 h-6 w-6 border-2 border-primary-500"
                       />
                     </div>
                   </FormControl>
@@ -167,11 +158,29 @@ const SignalModal = ({
               control={form.control}
               name="symbol"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full flex flex-col">
                   <FormLabel>Symbol</FormLabel>
                   <FormControl>
                     <SymbolComboBox
                       categoryId={form.getValues("signalCategoryId")}
+                      onChangeHandler={field.onChange}
+                      value={field.value}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex flex-col gap-5 md:flex-row md:items-center">
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Entry Type</FormLabel>
+                  <FormControl>
+                    <EntryTypeDropdown
                       onChangeHandler={field.onChange}
                       value={field.value}
                     />
@@ -198,28 +207,11 @@ const SignalModal = ({
               )}
             />
           </div>
-          <div className="flex flex-col gap-5 md:flex-row">
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Entry Type</FormLabel>
-                  <FormControl>
-                    <EntryTypeDropdown
-                      onChangeHandler={field.onChange}
-                      value={field.value}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+
           <div
             className={cn(
               `flex flex-col gap-5 md:flex-row `,
-              binary ? "hidden" : ""
+              form.getValues("isBinary") ? "hidden" : ""
             )}
           >
             <FormField
@@ -308,26 +300,8 @@ const SignalModal = ({
               )}
             />
           </div>
-          <div className="flex flex-col gap-5 md:flex-row">
-            {!binary ? (
-              <FormField
-                control={form.control}
-                name="stopLoss"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Stop Loss</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Stop Loss"
-                        {...field}
-                        className="input-field"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ) : (
+          <div className="flex flex-col gap-5 md:flex-row md:items-center">
+            {form.getValues("isBinary") ? (
               <FormField
                 control={form.control}
                 name="expiration"
@@ -340,6 +314,24 @@ const SignalModal = ({
                         {...field}
                         className="input-field"
                         type="number"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ) : (
+              <FormField
+                control={form.control}
+                name="stopLoss"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Stop Loss</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Stop Loss"
+                        {...field}
+                        className="input-field"
                       />
                     </FormControl>
                     <FormMessage />
@@ -416,7 +408,11 @@ const SignalModal = ({
               )}
             />
           </div>
-          <Button type="submit" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-[50%] mx-auto"
+          >
             {isSubmitting ? <Spinner /> : `Submit`}
           </Button>
         </form>

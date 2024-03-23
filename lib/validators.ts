@@ -25,5 +25,8 @@ export const signalFormSchema = z.object({
   isActive: z.boolean(),
   profit: z.coerce.number().optional(),
   type: z.string(),
-  expiration: z.number().optional(),
+  expiration: z
+    .union([z.string(), z.number()])
+    .transform((val) => Number(val))
+    .optional(),
 });

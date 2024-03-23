@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { Logo } from "../Logo";
+import AdminPermission from "./AdminPermission";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -28,18 +29,31 @@ const Sidebar = () => {
                       isActive
                         ? "bg-purple-gradient text-white"
                         : "text-gray-700"
-                    }`}
+                    } ${!link.isActive ? "opacity-20 cursor-not-allowed" : ""}`}
                   >
-                    <Link className="sidebar-link" href={link.route}>
-                      <Image
-                        src={link.icon}
-                        alt="logo"
-                        width={24}
-                        height={24}
-                        className={`${isActive && "brightness-200"}`}
-                      />
-                      {link.label}
-                    </Link>
+                    {link.isActive ? (
+                      <Link className="sidebar-link" href={link.route}>
+                        <Image
+                          src={link.icon}
+                          alt="logo"
+                          width={24}
+                          height={24}
+                          className={`${isActive && "brightness-200"}`}
+                        />
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <div className="sidebar-link">
+                        <Image
+                          src={link.icon}
+                          alt="logo"
+                          width={24}
+                          height={24}
+                          className={`${isActive && "brightness-200"}`}
+                        />
+                        {link.label}
+                      </div>
+                    )}
                   </li>
                 );
               })}
@@ -50,25 +64,31 @@ const Sidebar = () => {
                 const isActive = link.route === pathname;
 
                 return (
-                  <li
-                    key={link.route}
-                    className={`sidebar-nav_element group ${
-                      isActive
-                        ? "bg-purple-gradient text-white"
-                        : "text-gray-700"
-                    }`}
-                  >
-                    <Link className="sidebar-link" href={link.route}>
-                      <Image
-                        src={link.icon}
-                        alt="logo"
-                        width={24}
-                        height={24}
-                        className={`${isActive && "brightness-200"}`}
-                      />
-                      {link.label}
-                    </Link>
-                  </li>
+                  <AdminPermission skipPermission={!link.isAdmin}>
+                    <li
+                      key={link.route}
+                      className={`sidebar-nav_element group ${
+                        isActive
+                          ? "bg-purple-gradient text-white"
+                          : "text-gray-700"
+                      } ${
+                        !link.isActive
+                          ? "bg-purple-gradient text-white opacity-20 cursor-pointer:not-allowed"
+                          : "text-gray-700"
+                      }`}
+                    >
+                      <Link className="sidebar-link" href={link.route}>
+                        <Image
+                          src={link.icon}
+                          alt="logo"
+                          width={24}
+                          height={24}
+                          className={`${isActive && "brightness-200"}`}
+                        />
+                        {link.label}
+                      </Link>
+                    </li>
+                  </AdminPermission>
                 );
               })}
 

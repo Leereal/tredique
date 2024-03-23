@@ -8,9 +8,10 @@ export type CreateUserParams = {
 };
 
 export type UpdateUserParams = {
-  firstName: string;
-  lastName: string;
-  photo: string;
+  firstName?: string;
+  lastName?: string;
+  photo?: string;
+  role?: string;
 };
 
 // ====== TRANSACTION PARAMS
