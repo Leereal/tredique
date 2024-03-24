@@ -28,6 +28,7 @@ const ShowSignals = ({
                   (signal) => signal.signalCategory?.name === tab.value
                 )
           }
+          userId={userId}
         />
       </TabsContent>
     ));

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { Logo } from "../Logo";
+import AdminPermission from "./AdminPermission";
 
 const MobileNav = () => {
   const pathname = usePathname();
@@ -38,25 +39,33 @@ const MobileNav = () => {
                     const isActive = link.route === pathname;
 
                     return (
-                      <li
-                        className={`${
-                          isActive && "gradient-text"
-                        } p-18 flex whitespace-nowrap text-dark-700`}
+                      <AdminPermission
+                        skipPermission={!link.isAdmin}
                         key={link.route}
                       >
-                        <Link
-                          className="sidebar-link cursor-pointer"
-                          href={link.route}
+                        <li
+                          className={`${
+                            isActive && "gradient-text"
+                          } p-18 flex whitespace-nowrap text-dark-700 ${
+                            !link.isActive
+                              ? "opacity-20 cursor-not-allowed"
+                              : ""
+                          }`}
                         >
-                          <Image
-                            src={link.icon}
-                            alt="logo"
-                            width={24}
-                            height={24}
-                          />
-                          {link.label}
-                        </Link>
-                      </li>
+                          <Link
+                            className="sidebar-link cursor-pointer"
+                            href={link.route}
+                          >
+                            <Image
+                              src={link.icon}
+                              alt="logo"
+                              width={24}
+                              height={24}
+                            />
+                            {link.label}
+                          </Link>
+                        </li>
+                      </AdminPermission>
                     );
                   })}
                 </ul>

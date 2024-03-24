@@ -5,7 +5,13 @@ import { cn } from "@/lib/utils";
 import SignalCard from "./SignalCard";
 import { ForexSignal } from "@/types";
 
-const SignalGroup = ({ signals }: { signals: ForexSignal[] | undefined }) => {
+const SignalGroup = ({
+  signals,
+  userId,
+}: {
+  signals: ForexSignal[] | undefined;
+  userId: any;
+}) => {
   return (
     <div className="space-y-3">
       {signals && signals.length > 0 ? (
@@ -19,7 +25,9 @@ const SignalGroup = ({ signals }: { signals: ForexSignal[] | undefined }) => {
           {signals && signals.length ? (
             signals
               .filter((signal) => signal.isActive === true)
-              ?.map((signal) => <SignalCard signal={signal} key={signal._id} />)
+              ?.map((signal) => (
+                <SignalCard signal={signal} userId={userId} key={signal._id} />
+              ))
           ) : (
             <div className="font-bold text-red-600">No active signals</div>
           )}

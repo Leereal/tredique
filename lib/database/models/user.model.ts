@@ -7,6 +7,7 @@ const UserSchema = new Schema({
   lastName: { type: String, required: true },
   photo: { type: String },
   planId: { type: Number, default: 1 },
+  premiumDueDate: { type: Date, default: null },
   creditBalance: { type: Number, default: 10 },
   role: { type: String, default: "User" },
   createdAt: { type: Date, default: Date.now },

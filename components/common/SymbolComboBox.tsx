@@ -83,7 +83,7 @@ export function SymbolComboBox({
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0 md:w-[700px] z-[1200]">
+      <PopoverContent className="p-0 md:w-[400px] z-[1200]">
         <Command>
           <CommandInput placeholder="Search Symbol..." />
           <CommandList>

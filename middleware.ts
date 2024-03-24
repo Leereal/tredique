@@ -15,6 +15,21 @@ export default authMiddleware({
     "/api/uploadthing",
   ],
   afterAuth(auth, req, evt) {
+    // Redirect non-admin users trying to access restricted routes
+    const restrictedForNonAdmins = [
+      "/robots",
+      "/accounts",
+      "/connections",
+      "/trade",
+      "/settings",
+    ];
+    if (
+      restrictedForNonAdmins.includes(req.nextUrl.pathname) &&
+      auth?.sessionClaims?.role !== "Admin"
+    ) {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+
     // Handle users who aren't authenticated
     if (!auth.userId && !auth.isPublicRoute) {
       return redirectToSignIn({ returnBackUrl: req.url });

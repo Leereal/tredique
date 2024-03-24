@@ -52,8 +52,6 @@ const SignalModal = ({
     defaultValues: initialValues as z.infer<typeof signalFormSchema>,
   });
   async function onSubmit(values: z.infer<typeof signalFormSchema>) {
-    console.log("Values: ", values);
-
     setIsSubmitting(true);
     if (type === "Create") {
       try {
@@ -82,7 +80,7 @@ const SignalModal = ({
       try {
         const updatedSignal = await updateSignal({
           userId,
-          signal: { ...values },
+          signal: { ...values, _id: signal._id },
           path: `/signals`,
         });
 

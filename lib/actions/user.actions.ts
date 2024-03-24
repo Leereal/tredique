@@ -5,8 +5,10 @@ import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "@/lib/database";
 import User from "@/lib/database/models/user.model";
 import { handleError } from "@/lib/utils";
+import { clerkClient } from "@clerk/nextjs";
 
 import { CreateUserParams, UpdateUserParams } from "@/types";
+import CreditTransaction from "../database/models/credit-transaction.models";
 
 export async function createUser(user: CreateUserParams) {
   try {
@@ -39,7 +41,14 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
     const updatedUser = await User.findOneAndUpdate({ clerkId }, user, {
       new: true,
     });
-    console.log("Updated User : ", updatedUser);
+
+    if (user.role) {
+      const response = await clerkClient.users.updateUserMetadata(clerkId, {
+        publicMetadata: {
+          role: user.role,
+        },
+      });
+    }
 
     if (!updatedUser) throw new Error("User update failed");
     return JSON.parse(JSON.stringify(updatedUser));
@@ -70,7 +79,17 @@ export async function deleteUser(clerkId: string) {
 }
 
 // USE CREDITS
-export async function updateCredits(userId: string, creditFee: number) {
+export async function updateCredits({
+  userId,
+  creditFee,
+  transactionType,
+  transactionDetails,
+}: {
+  userId: string;
+  creditFee: number;
+  transactionType: string;
+  transactionDetails: any;
+}) {
   try {
     await connectToDatabase();
 
@@ -81,6 +100,14 @@ export async function updateCredits(userId: string, creditFee: number) {
     );
 
     if (!updatedUserCredits) throw new Error("User credits update failed");
+
+    // Record the credit transaction
+    await CreditTransaction.create({
+      user: userId,
+      amount: creditFee,
+      transactionType,
+      transactionDetails,
+    });
 
     return JSON.parse(JSON.stringify(updatedUserCredits));
   } catch (error) {

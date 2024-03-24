@@ -35,7 +35,7 @@ const Dashboard = async () => {
       <div className="min-w-screen bg-slate-100 px-5 py-5 mt-5 rounded-2xl">
         <h3 className="font-bold text-xl mb-2">Most Recent Signals</h3>
         {signals ? (
-          <SignalGroup signals={signals} />
+          <SignalGroup signals={signals} userId={userId} />
         ) : (
           <div className="grid gap-4 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
             {skeleton()}

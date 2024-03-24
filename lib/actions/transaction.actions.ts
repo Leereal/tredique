@@ -7,9 +7,9 @@ import Transaction from "../database/models/transaction.model";
 import { updateCredits } from "./user.actions";
 import { CheckoutTransactionParams, CreateTransactionParams } from "@/types";
 import { connectToDatabase } from "../database";
+import CreditTransaction from "../database/models/credit-transaction.models";
 
 export async function checkoutCredits(transaction: CheckoutTransactionParams) {
-  console.log("STRIPE CHECKOUT : ", process.env.STRIPE_SECRET_KEY!);
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
   const amount = Number(transaction.amount) * 100;
@@ -50,7 +50,12 @@ export async function createTransaction(transaction: CreateTransactionParams) {
       buyer: transaction.buyerId,
     });
 
-    await updateCredits(transaction.buyerId, transaction.credits);
+    await updateCredits({
+      userId: transaction.buyerId,
+      creditFee: transaction.credits,
+      transactionType: "Credit Purchase",
+      transactionDetails: { planId: transaction.plan || 2 },
+    });
 
     return JSON.parse(JSON.stringify(newTransaction));
   } catch (error) {
