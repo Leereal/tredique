@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { FaAngleRight } from "react-icons/fa6";
 
-export default () => {
+const Header = () => {
   const [state, setState] = useState(false);
 
   // useEffect(() => {
@@ -108,3 +108,5 @@ export default () => {
     </nav>
   );
 };
+
+export default Header;
