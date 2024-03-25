@@ -36,7 +36,7 @@ const Footer = () => {
               href="/sign-up"
               className="block py-2 px-4 text-center text-white font-medium bg-indigo-600 duration-150 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg shadow-lg hover:shadow-none"
             >
-              Let's get started
+              Get started now
             </Link>
             <Link
               href="/sign-in"

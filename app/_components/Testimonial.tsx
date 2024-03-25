@@ -33,8 +33,8 @@ const Testimonial = () => {
           <p className="mt-3 text-gray-600">
             Immerse in the authenticity of trader testimonials. Unveil real
             success stories and firsthand experiences within our community. Our
-            network thrives on shared triumphs, empowering every trader's
-            journey.
+            network thrives on shared triumphs, empowering the journey of every
+            trader.
           </p>
         </div>
         <div className="mt-12">
