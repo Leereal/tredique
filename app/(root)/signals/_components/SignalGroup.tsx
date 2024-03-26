@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import SignalCard from "./SignalCard";
 import { ForexSignal } from "@/types";
+import BinarySignalCard from "./BinarySignalCard";
 
 const SignalGroup = ({
   signals,
@@ -25,9 +26,19 @@ const SignalGroup = ({
           {signals && signals.length ? (
             signals
               .filter((signal) => signal.isActive === true)
-              ?.map((signal) => (
-                <SignalCard signal={signal} userId={userId} key={signal._id} />
-              ))
+              ?.map((signal) => {
+                if (signal.isBinary) {
+                  return <BinarySignalCard signal={signal} key={signal._id} />;
+                } else {
+                  return (
+                    <SignalCard
+                      signal={signal}
+                      userId={userId}
+                      key={signal._id}
+                    />
+                  );
+                }
+              })
           ) : (
             <div className="font-bold text-red-600">No active signals</div>
           )}

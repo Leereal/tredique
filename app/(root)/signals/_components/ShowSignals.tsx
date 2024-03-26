@@ -38,7 +38,7 @@ const ShowSignals = ({
     { value: "overview", label: "Overview" },
     { value: "forex", label: "Forex" },
     { value: "synthetic", label: "Synthetic" },
-    { value: "iqoption-binary", label: "IQ Option Binary" },
+    { value: "iqoption-binary", label: "Currency Binary" },
     { value: "deriv-binary", label: "Deriv Binary" },
   ];
 

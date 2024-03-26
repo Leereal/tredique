@@ -1,43 +1,41 @@
-import moment from "moment";
-import Image from "next/image";
-import { FaHandPointUp } from "react-icons/fa6";
-import { IoRadioButtonOn } from "react-icons/io5";
-import { Separator } from "@/components/ui/separator";
-import { ForexSignal } from "@/types";
-import FullSignal from "./FullSignal";
-import { Dialog } from "primereact/dialog";
 import { useState } from "react";
 import PremiumPermission from "@/components/common/PremiumPermission";
+import moment from "moment";
+import Image from "next/image";
+import {
+  IoArrowDownCircleSharp,
+  IoArrowUpCircleSharp,
+  IoRadioButtonOn,
+} from "react-icons/io5";
+import { ForexSignal } from "@/types";
+import { InsufficientCreditsModal } from "@/components/common/InsufficientCreditsModal";
 
-const SignalCard = ({
-  signal,
-  userId,
-}: {
-  signal: ForexSignal;
-  userId: any;
-}) => {
+const BinarySignalCard = ({ signal }: { signal: ForexSignal }) => {
   const [visible, setVisible] = useState(false);
-
   return (
     <>
       <div className="relative m-2">
-        {" "}
         {signal.isPremium && (
           <div className="absolute top-0 left-0 bg-yellow-400 text-white py-1 px-2 text-xs font-bold rounded-br-lg rounded-tl-lg">
             Premium
           </div>
         )}
         <div
+          // className="bg-black border border-gray-200 rounded-lg m-2 p-2 flex flex-row items-center shadow-xl cursor-pointer"
           className={`${
             signal.profit
               ? signal.profit > 0
                 ? "bg-green-300"
                 : "bg-red-200"
               : signal.isActive
-              ? "bg-blue-200"
-              : "bg-gray-200"
+              ? "bg-black"
+              : "bg-gray-500"
           } border border-gray-200 rounded-lg m-2 p-2 flex flex-row items-center shadow-xl cursor-pointer`}
-          onClick={() => setVisible(true)}
+          onClick={() => {
+            if (signal.isPremium) {
+              setVisible(true);
+            }
+          }}
         >
           <div className="p-2">
             <Image
@@ -51,8 +49,13 @@ const SignalCard = ({
 
           <div className="ml-2 flex-1">
             <div className="flex flex-row justify-between items-center">
-              <div className="uppercase text-sm font-bold text-blue-950">
-                {signal.symbol}
+              <div className="uppercase text-xl font-bold text-white whitespace-nowrap">
+                {signal.symbol.toLowerCase().includes("volatility indices")
+                  ? signal.symbol
+                      .toLowerCase()
+                      .replace("volatility indices", "V")
+                      .trim()
+                  : signal.symbol}
               </div>
 
               <div>
@@ -63,72 +66,47 @@ const SignalCard = ({
               </div>
             </div>
 
-            <div className="flex flex-col items-center">
-              <div className="capitalize font-extrabold text-blue-800 text-xs whitespace-nowrap">
-                {signal.type}
-              </div>
-
-              <Separator className="my-1" />
-              {!signal.isPremium && (
-                <div className="uppercase font-semibold text-xs text-slate-600 whitespace-nowrap">
-                  {signal.entryRange}
-                </div>
+            <div className="flex justify-between items-center">
+              {signal.profit ? (
+                <p>Closed</p>
+              ) : !signal.isPremium ? (
+                <>
+                  <div className="font-bold text-xl text-green-500 whitespace-nowrap">
+                    {signal.entryRange}
+                  </div>
+                  {signal.type.includes("buy") ? (
+                    <IoArrowUpCircleSharp
+                      size={32}
+                      className="text-green-500"
+                    />
+                  ) : (
+                    <IoArrowDownCircleSharp
+                      size={32}
+                      className="text-red-500"
+                    />
+                  )}
+                </>
+              ) : (
+                <p className="text-sm">Click to view full signal</p>
               )}
             </div>
-
-            <div className="flex flex-col items-center">
-              <div className="flex flex-col items-center">
-                {/* This div will only be visible on small screens (sm: hidden hides it on screens ≥640px) */}
-                {!signal.isPremium ? (
-                  <div className="text-xs font-bold text-green-700 flex mt-1 sm:hidden">
-                    Touch for TP and SL{" "}
-                    <FaHandPointUp size={14} color="green" />
-                  </div>
-                ) : (
-                  <div className="text-xs font-bold text-green-700 flex mt-1 sm:hidden">
-                    Touch for Entry Price, TP and SL{" "}
-                    <FaHandPointUp size={14} color="green" />
-                  </div>
-                )}
-
-                {/* This div will be hidden on small screens and visible on screens ≥640px (sm:flex) */}
-                {!signal.isPremium ? (
-                  <div className="hidden sm:flex text-xs font-bold text-green-700 mt-1">
-                    Click for TP and SL{" "}
-                    <FaHandPointUp size={14} color="green" />
-                  </div>
-                ) : (
-                  <div className="hidden sm:flex text-xs font-bold text-green-700 mt-1">
-                    Click for Entry Price, TP and SL{" "}
-                    <FaHandPointUp size={14} color="green" />
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="text-xs italic text-right">
-              {moment(signal.createdAt).fromNow()}
+            <div className="flex justify-between items-center">
+              <p className="whitespace-nowrap">{signal.expiration} mins</p>
+              <p className="text-xs italic text-right whitespace-nowrap">
+                {moment(signal.createdAt).fromNow()}
+              </p>
             </div>
           </div>
         </div>
       </div>
+
       {visible && (
         <PremiumPermission signal={signal} skipPermission={!signal.isPremium}>
-          <Dialog
-            visible={visible}
-            className="w-full md:w-[500px]"
-            onHide={() => setVisible(false)}
-          >
-            <FullSignal
-              closeModal={() => setVisible(false)}
-              signal={signal}
-              userId={userId}
-            />
-          </Dialog>
+          <InsufficientCreditsModal />
         </PremiumPermission>
       )}
     </>
   );
 };
 
-export default SignalCard;
+export default BinarySignalCard;

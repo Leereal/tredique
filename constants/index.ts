@@ -55,7 +55,7 @@ export const navLinks = [
     route: "/credits",
     icon: "/assets/icons/money-bag.svg",
     isAdmin: false,
-    isActive: true,
+    isActive: false,
   },
   {
     label: "Settings",

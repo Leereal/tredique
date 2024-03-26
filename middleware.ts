@@ -21,7 +21,8 @@ export default authMiddleware({
       "/accounts",
       "/connections",
       "/trade",
-      "/settings",
+      // "/settings",
+      "/credits",
     ];
     if (
       restrictedForNonAdmins.includes(req.nextUrl.pathname) &&

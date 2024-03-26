@@ -22,6 +22,19 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description || "",
   icons: [{ url: "/assets/images/logo.png", href: "/assets/images/logo.png" }],
+  metadataBase: new URL(siteConfig.metadataBase),
+  // openGraph: {
+  //   title: siteConfig.name,
+  //   description: siteConfig.description || "",
+  //   images: "./opengraph-image.png",
+  // },
+  // twitter: {
+  //   card: "summary_large_image",
+  //   site: siteConfig.twitter,
+  //   title: siteConfig.name,
+  //   description: siteConfig.description || "",
+  //   images: "./opengraph-image.png",
+  // },
 };
 
 export default function RootLayout({
