@@ -25,14 +25,18 @@ const PremiumPermission = ({
       try {
         setIsLoading(true);
         const user = await getUserByClerkId(clerkId);
-
-        if (user?.role === "Admin") {
+        if (skipPermission) {
+          setIsLoading(false);
+          return;
+        } else if (signal.viewers.includes(user?._id)) {
+          skipPermission = true;
+          setIsLoading(false);
+          return;
+        } else if (user?.role === "Admin") {
           setIsAdmin(true);
         } else if (user?.premiumDueDate > new Date()) {
           setIsPremium(true);
         } else if (user?.creditBalance > 0) {
-          console.log("signal", signal);
-
           // Deduct credits based on signal category and binary status
           let creditsToDeduct = 0;
           switch (signal.signalCategory?.name) {

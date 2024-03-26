@@ -108,6 +108,7 @@ export type ForexSignal = {
   expiration: number;
   isBinary: boolean;
   createdAt: Date;
+  viewers: string[];
   sender?: {
     // Include sender field
     _id: string;

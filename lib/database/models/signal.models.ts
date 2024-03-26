@@ -19,6 +19,7 @@ const SignalSchema = new Schema(
     type: { type: String },
     expiration: { type: Number },
     isBinary: { type: Boolean }, // Added isBinary field
+    viewers: { type: [Schema.Types.ObjectId], ref: "User", default: [] },
   },
   {
     timestamps: true,

@@ -9,6 +9,7 @@ import { clerkClient } from "@clerk/nextjs";
 
 import { CreateUserParams, UpdateUserParams } from "@/types";
 import CreditTransaction from "../database/models/credit-transaction.models";
+import Signal from "../database/models/signal.models";
 
 export async function createUser(user: CreateUserParams) {
   try {
@@ -98,6 +99,11 @@ export async function updateCredits({
       { $inc: { creditBalance: creditFee } },
       { new: true }
     );
+    if (transactionType === "Credit deduction" && transactionDetails.signal) {
+      await Signal.findByIdAndUpdate(transactionDetails.signal, {
+        $push: { viewers: userId },
+      });
+    }
 
     if (!updatedUserCredits) throw new Error("User credits update failed");
 
