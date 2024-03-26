@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "@/lib/database";
 import User from "@/lib/database/models/user.model";
 import { handleError } from "@/lib/utils";
-import { clerkClient } from "@clerk/nextjs";
+import { clerkClient, auth } from "@clerk/nextjs";
 
 import { CreateUserParams, UpdateUserParams } from "@/types";
 import CreditTransaction from "../database/models/credit-transaction.models";
@@ -37,13 +37,15 @@ export async function getUserById(userId: any) {
 
 export async function updateUser(clerkId: string, user: UpdateUserParams) {
   try {
+    const loggedUser = await auth();
+    const userRole = loggedUser.sessionClaims?.role;
     await connectToDatabase();
 
     const updatedUser = await User.findOneAndUpdate({ clerkId }, user, {
       new: true,
     });
 
-    if (user.role) {
+    if (user.role && userRole === "Admin" && clerkId !== loggedUser.userId) {
       const response = await clerkClient.users.updateUserMetadata(clerkId, {
         publicMetadata: {
           role: user.role,
