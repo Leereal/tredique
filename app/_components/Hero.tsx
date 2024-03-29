@@ -11,7 +11,7 @@ const Hero = () => {
       >
         <div className="flex-none space-y-5 max-w-xl">
           <Link
-            href="/"
+            href="/sign-up"
             className="inline-flex gap-x-6 items-center rounded-full p-1 pr-6 border text-sm font-medium duration-150 hover:bg-white"
           >
             <span className="inline-block rounded-full px-3 py-1 bg-indigo-600 text-white">
@@ -32,14 +32,14 @@ const Hero = () => {
           </p>
           <div className="flex items-center gap-x-3 sm:text-sm">
             <Link
-              href="/"
+              href="/sign-up"
               className="flex items-center justify-center gap-x-1 py-2 px-4 text-white font-medium bg-primary duration-150 hover:bg-gray-700 active:bg-gray-900 rounded-full md:inline-flex"
             >
               Get started
               <FaAngleRight />
             </Link>
             <Link
-              href="/"
+              href="/sign-up"
               className="flex items-center justify-center gap-x-1 py-2 px-4 text-gray-700 hover:text-gray-900 font-medium duration-150 md:inline-flex"
             >
               Contact sales

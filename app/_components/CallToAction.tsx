@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 const CallToAction = () => {
+  const href = "/signup";
   return (
     <div className="hidden md:block bg-slate-400 md:py-15 md:px-40">
       <h1 className="text-3xl md:text-5xl text-center text-white font-semibold py-5">
@@ -61,7 +63,9 @@ const CallToAction = () => {
         </div>
 
         <div>
-          <Button className="submit-button">GET PIPS NOW</Button>
+          <Button className="submit-button" asChild>
+            <Link href={href}>GET PIPS NOW</Link>
+          </Button>
         </div>
       </div>
     </div>
