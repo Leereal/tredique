@@ -9,7 +9,7 @@ import { ForexSignal } from "@/types";
 
 const SignalsPage = async () => {
   const { sessionClaims } = auth();
-  const userId = sessionClaims?.userId;
+  const userId: any = sessionClaims?.userId || "";
 
   if (!userId) redirect("/sign-in");
 
