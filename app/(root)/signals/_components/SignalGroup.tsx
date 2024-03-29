@@ -25,7 +25,7 @@ const SignalGroup = ({
         >
           {signals && signals.length ? (
             signals
-              .filter((signal) => signal.isActive === true)
+              // .filter((signal) => signal.isActive === true)
               ?.map((signal) => {
                 if (signal.isBinary) {
                   return <BinarySignalCard signal={signal} key={signal._id} />;

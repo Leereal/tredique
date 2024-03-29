@@ -24,6 +24,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/common/Spinner";
 import { cn } from "@/lib/utils";
+import { useSocket } from "@/context/SocketContext";
 
 const SignalModal = ({
   visible,
@@ -38,6 +39,7 @@ const SignalModal = ({
   signal?: any;
   type: string;
 }) => {
+  const { socket } = useSocket();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const binary = true;
   const initialValues =
@@ -62,6 +64,9 @@ const SignalModal = ({
         });
 
         if (newSignal) {
+          //Notify other users
+          socket.emit("manualSignal", newSignal);
+
           form.reset();
           setVisible();
         }

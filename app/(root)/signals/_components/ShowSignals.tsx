@@ -1,21 +1,58 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignalGroup from "./SignalGroup";
 import { ForexSignal } from "@/types";
 import { Button } from "@/components/ui/button";
 import SignalModal from "./SignalModal";
 import AdminPermission from "@/components/common/AdminPermission";
+import { useSocket } from "@/context/SocketContext";
 
 const ShowSignals = ({
-  signals,
+  signals: initialSignals,
   userId,
 }: {
   signals: ForexSignal[] | undefined;
-  userId: any;
+  userId: string; // Assuming userId is a string. Adjust type accordingly.
 }) => {
+  const [signals, setSignals] = useState<ForexSignal[] | undefined>(
+    initialSignals
+  );
   const [visible, setVisible] = useState(false);
-  const [signal, setSignal] = useState({});
+  const { socket, showMessage } = useSocket();
+
+  useEffect(() => {
+    if (!socket) return;
+    const handleNewSignal = (signal: ForexSignal) => {
+      // Use a functional update to maintain immutability
+      setSignals((currentSignals) => [signal, ...(currentSignals || [])]);
+      showMessage("success", "New Signal", "New signal has been added");
+      const sound = new Audio("/assets/sounds/pop-sound.mp3");
+      sound.play();
+    };
+
+    const handleDeleteSignal = ({ signalId }: { signalId: string }) => {
+      setSignals((currentSignals) => {
+        const filteredSignals = currentSignals?.filter(
+          (signal) => signal._id !== signalId
+        );
+        return filteredSignals;
+      });
+      showMessage(
+        "success",
+        "Signal Deleted",
+        `There is a signal that was deleted`
+      );
+    };
+
+    socket.on("broadcastedSignal", handleNewSignal);
+    socket.on("deleteSignal", handleDeleteSignal);
+
+    return () => {
+      socket.off("broadcastedSignal", handleNewSignal);
+      socket.off("deleteSignal", handleDeleteSignal);
+    };
+  }, [socket]);
 
   const renderTabs = (tabs: { value: string; label: string }[]) => {
     return tabs.map((tab) => (

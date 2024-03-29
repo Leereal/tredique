@@ -4,6 +4,10 @@ import Image from "next/image";
 import { Logo } from "@/components/Logo";
 import AdminPermission from "@/components/common/AdminPermission";
 import SignalModal from "./SignalModal";
+import { IoTrash } from "react-icons/io5";
+import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
+import { deleteSignal } from "@/lib/actions/signal.actions";
+import { useSocket } from "@/context/SocketContext";
 
 const FullSignal: React.FC<{
   signal: ForexSignal;
@@ -11,9 +15,31 @@ const FullSignal: React.FC<{
   userId: any;
 }> = ({ signal, closeModal, userId }) => {
   const [visible, setVisible] = useState(false);
+  const { showMessage, socket, user } = useSocket();
+
+  const accept = async () => {
+    await deleteSignal({ signalId: signal._id, path: "/signals" });
+    showMessage("success", "Success", "Signal deleted");
+    socket.emit("deleteSignal", { signalId: signal._id });
+  };
+
+  const reject = () => {};
+  const confirm = (event: any) => {
+    confirmPopup({
+      target: event.currentTarget,
+      message: "Do you want to delete this?",
+      icon: "pi pi-info-circle",
+      defaultFocus: "reject",
+      acceptClassName: "p-button-danger",
+      accept,
+      reject,
+    });
+  };
 
   return (
     <>
+      <ConfirmPopup />
+
       <div className="max-w-sm md:w-[500px]  mx-auto p-4 relative">
         <div className="absolute z-0 pointer-events-none inset-0 flex justify-center items-center">
           <Image
@@ -155,6 +181,14 @@ const FullSignal: React.FC<{
                 height={16}
               />
             </button>
+            <span className="flex items-center">
+              <p className="text-sm font-bold text-sky-500">Delete</p>
+              <IoTrash
+                size={16}
+                className="text-red-600 hover:text-red-500 cursor-pointer"
+                onClick={confirm}
+              />
+            </span>
           </AdminPermission>
           <button
             onClick={() => {

@@ -14,6 +14,8 @@ export type UpdateUserParams = {
   role?: string;
 };
 
+export type UserType = {};
+
 // ====== TRANSACTION PARAMS
 declare type CheckoutTransactionParams = {
   plan: string;
@@ -103,7 +105,7 @@ export type ForexSignal = {
   takeProfit5?: number | null; // Make it optional and nullable
   isPremium: boolean;
   isActive: boolean;
-  profit?: number | null;
+  profit?: any | null | undefined;
   type: string;
   expiration: number;
   isBinary: boolean;

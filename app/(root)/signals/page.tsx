@@ -6,7 +6,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import ShowSignals from "./_components/ShowSignals";
 import { getAllSignals } from "@/lib/actions/signal.actions";
 import { ForexSignal } from "@/types";
-import { getUserById } from "@/lib/actions/user.actions";
 
 const SignalsPage = async () => {
   const { sessionClaims } = auth();
