@@ -1,4 +1,4 @@
-import { CreateForexSignalParams } from "@/types";
+import { CreateForexSignalParams, IRobot } from "@/types";
 
 export const navLinks = [
   {
@@ -225,6 +225,11 @@ export const signalDefaultValues: CreateForexSignalParams = {
   isBinary: false,
 };
 
+export const robotDefaultValues: IRobot = {
+  name: "",
+  active: true,
+};
+
 export const symbols: Record<string, { name: string; active: boolean }[]> = {
   forex: [
     { name: "AUDCAD", active: true },
@@ -275,16 +280,16 @@ export const symbols: Record<string, { name: string; active: boolean }[]> = {
     { name: "CRASH 500", active: true },
     { name: "CRASH 1000", active: true },
     { name: "STEP INDEX", active: true },
-    { name: "VOLATILITY INDICES 10", active: true },
-    { name: "VOLATILITY INDICES 10 (1s)", active: true },
-    { name: "VOLATILITY INDICES 25", active: true },
-    { name: "VOLATILITY INDICES 25 (1s)", active: true },
-    { name: "VOLATILITY INDICES 50", active: true },
-    { name: "VOLATILITY INDICES 50 (1s)", active: true },
-    { name: "VOLATILITY INDICES 75", active: true },
-    { name: "VOLATILITY INDICES 75 (1s)", active: true },
-    { name: "VOLATILITY INDICES 100", active: true },
-    { name: "VOLATILITY INDICES 100 (1s)", active: true },
+    { name: "VOLATILITY 10", active: true },
+    { name: "VOLATILITY 10 (1S)", active: true },
+    { name: "VOLATILITY 25", active: true },
+    { name: "VOLATILITY 25 (1S)", active: true },
+    { name: "VOLATILITY 50", active: true },
+    { name: "VOLATILITY 50 (1S)", active: true },
+    { name: "VOLATILITY 75", active: true },
+    { name: "VOLATILITY 75 (1S)", active: true },
+    { name: "VOLATILITY 100", active: true },
+    { name: "VOLATILITY 100 (1S)", active: true },
   ],
 };
 

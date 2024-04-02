@@ -74,7 +74,6 @@ export const SocketContextProvider = ({
     };
     fetchUser();
   }, [clerkId, router]);
-
   return (
     <SocketContext.Provider value={{ socket, onlineUsers, user, showMessage }}>
       <Toast ref={toastRef} position="top-center" />

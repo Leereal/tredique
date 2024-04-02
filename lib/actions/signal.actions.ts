@@ -63,6 +63,7 @@ export async function createSignal({
       ...signal,
       signalCategory: signal.signalCategoryId,
       sender: userId,
+      profit: null,
     });
 
     revalidatePath(path);

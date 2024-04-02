@@ -41,12 +41,12 @@ const SignalModal = ({
 }) => {
   const { socket } = useSocket();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const binary = true;
   const initialValues =
     signal && type === "Update"
       ? {
           ...signal,
-          signalCategoryId: signal.signalCategory._id,
+          signalCategoryId:
+            signal?.signalCategory?._id || signal?.signalCategoryId,
         }
       : signalDefaultValues;
   const form = useForm<z.infer<typeof signalFormSchema>>({
@@ -90,6 +90,7 @@ const SignalModal = ({
         });
 
         if (updatedSignal) {
+          socket.emit("updateSignal", updatedSignal);
           form.reset();
           setVisible();
         }

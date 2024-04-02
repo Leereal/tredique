@@ -45,10 +45,12 @@ const HomeBinarySignalCard = ({ signal }: { signal: ForexSignal }) => {
             <div className="ml-2 flex-1">
               <div className="flex flex-row justify-between items-center">
                 <div className="uppercase text-xl font-bold text-white whitespace-nowrap">
-                  {signal.symbol.toLowerCase().includes("volatility indices")
+                  {signal.symbol.toLowerCase().includes("volatility")
                     ? signal.symbol
                         .toLowerCase()
-                        .replace("volatility indices", "V")
+                        .replace("volatility", "V")
+                        .replace(/\bindices?\b/g, "") // Remove "indices"
+                        .replace(/\bindex(?:es?)?\b/gi, "") // Remove index
                         .trim()
                     : signal.symbol}
                 </div>

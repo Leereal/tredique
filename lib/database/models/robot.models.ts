@@ -1,5 +1,7 @@
 import { Schema, model, models } from "mongoose";
 
+// Define the interface for the document representing a robot
+
 const RobotSchema = new Schema({
   name: { type: String, required: true, unique: true },
   version: { type: String },

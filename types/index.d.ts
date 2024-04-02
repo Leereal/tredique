@@ -133,3 +133,47 @@ export type ForexSignalCategory = {
   _id: string;
   name: string;
 };
+
+interface IRobot {
+  _id?: Schema.Types.ObjectId;
+  name: string;
+  version?: string;
+  description?: string;
+  strategy?: string;
+  active: boolean;
+  creator?: Schema.Types.ObjectId;
+  category?: Schema.Types.ObjectId;
+  symbols?: { name: string; active: boolean }[];
+  socket?: string;
+}
+
+interface IAccount {
+  _id?: Schema.Types.ObjectId;
+  owner: Schema.Types.ObjectId;
+  accountName: string;
+  token?: string;
+  active?: boolean;
+  balance?: number;
+  openingBalance?: number;
+}
+
+interface IConnection {
+  _id?: string;
+  connector?: Schema.Types.ObjectId;
+  account: string;
+  robot: string;
+  payout?: number;
+  stake?: number;
+  expiration?: number;
+  currentLevel?: number;
+  martingale?: boolean;
+  targetPercentage?: number;
+  active?: boolean;
+  targetReached?: boolean;
+  openTrade?: boolean;
+  activeContractId?: number;
+  lastProfit?: number;
+  entry?: string;
+  currency?: string;
+  dynamicStake?: boolean;
+}
