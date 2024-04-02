@@ -50,7 +50,7 @@ export const SocketContextProvider = ({
         const fetchedUser = await getUserByClerkId(clerkId);
         if (fetchedUser) {
           setUser(fetchedUser);
-          const socketIO = io("http://localhost:5000", {
+          const socketIO = io(process.env.NEXT_PUBLIC_NODE_SOCKETIO_URL!, {
             query: {
               userId: fetchedUser?._id,
             },
