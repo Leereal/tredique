@@ -42,14 +42,10 @@ const RobotModal = ({
 
   const initialValues =
     robot && type === "Update" ? { ...robot } : robotDefaultValues; // Use default values for new robot or current robot values for update
-
+  console.log("Initial values: ", initialValues);
   const form = useForm<z.infer<typeof robotFormSchema>>({
     resolver: zodResolver(robotFormSchema),
-    defaultValues: {
-      name: "",
-      active: false,
-      ...robot,
-    },
+    defaultValues: initialValues as z.infer<typeof robotFormSchema>,
   });
 
   async function onSubmit(values: z.infer<typeof robotFormSchema>) {

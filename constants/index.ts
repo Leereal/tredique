@@ -229,6 +229,28 @@ export const robotDefaultValues: IRobot = {
   name: "",
   active: true,
 };
+export const connectionDefaultValues = {
+  accountId: "",
+  robotId: "",
+  payout: "",
+  stake: 0,
+  expiration: 0,
+  currentLevel: "",
+  martingale: false,
+  targetPercentage: "",
+  active: false,
+  targetReached: false,
+  openTrade: false,
+  activeContractId: null,
+  lastProfit: "",
+  entry: "",
+  currency: "",
+  dynamicStake: false,
+  stopLoss: "",
+  stakePercentage: "",
+  riskType: "",
+  riskPercentage: "",
+};
 
 export const symbols: Record<string, { name: string; active: boolean }[]> = {
   forex: [

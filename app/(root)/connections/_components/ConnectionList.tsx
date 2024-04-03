@@ -78,12 +78,14 @@ const ConnectionList = ({ connections }: any) => {
           No connections found
         </div>
       )}
-      <ConnectionModal
-        type={selectedConnection ? "Update" : "Create"}
-        visible={visible}
-        setVisible={() => setVisible(false)}
-        connection={selectedConnection}
-      />
+      {visible && (
+        <ConnectionModal
+          type={selectedConnection ? "Update" : "Create"}
+          visible={visible}
+          setVisible={() => setVisible(false)}
+          connection={selectedConnection}
+        />
+      )}
     </div>
   );
 };

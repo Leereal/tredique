@@ -24,6 +24,7 @@ import AccountDropdown from "@/components/common/AccountDropdown";
 import RobotDropdown from "@/components/common/RobotDropdown";
 import RiskTypeDropdown from "@/components/common/RiskTypeDropdown";
 import { Checkbox } from "@/components/ui/checkbox";
+import { connectionDefaultValues } from "@/constants";
 
 const ConnectionModal = ({
   visible,
@@ -36,17 +37,20 @@ const ConnectionModal = ({
   connection?: any | null;
   type: string;
 }) => {
+  console.log(connection);
   const { user } = useSocket();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const initialValues =
     connection && type === "Update"
-      ? { ...connection }
-      : { accountName: "", active: false };
-
+      ? {
+          ...connection,
+          accountId: connection.account._id,
+          robotId: connection.robot._id,
+        }
+      : connectionDefaultValues;
   const form = useForm<z.infer<typeof connectionFormSchema>>({
     resolver: zodResolver(connectionFormSchema),
-    defaultValues: initialValues,
+    defaultValues: initialValues as z.infer<typeof connectionFormSchema>,
   });
 
   async function onSubmit(values: z.infer<typeof connectionFormSchema>) {
@@ -107,6 +111,7 @@ const ConnectionModal = ({
           className="flex flex-col gap-5"
         >
           <div className="flex flex-col gap-5 md:flex-row">
+            {console.log("Form Validations", form.formState.errors)}
             <FormField
               control={form.control}
               name="accountId"

@@ -68,7 +68,6 @@ export const accountFormSchema = z.object({
 });
 
 export const connectionFormSchema = z.object({
-  connector: z.string().optional(),
   accountId: z.string(),
   robotId: z.string(),
   payout: z.coerce.number().optional(),
@@ -76,17 +75,17 @@ export const connectionFormSchema = z.object({
   expiration: z.coerce.number(),
   currentLevel: z.coerce.number().optional(),
   martingale: z.boolean().optional(),
-  targetPercentage: z.number().optional(),
+  targetPercentage: z.coerce.number().optional(),
   active: z.boolean().optional(),
   targetReached: z.boolean().optional(),
   openTrade: z.boolean().optional(),
-  activeContractId: z.number().optional(),
-  lastProfit: z.number().optional(),
+  activeContractId: z.coerce.number().optional(),
+  lastProfit: z.coerce.number().optional(),
   entry: z.string().optional(),
   currency: z.string(),
   dynamicStake: z.boolean().optional(),
-  stopLoss: z.number().optional(),
-  stakePercentage: z.number().optional(),
+  stopLoss: z.coerce.number().optional(),
+  stakePercentage: z.coerce.number().optional(),
   riskType: z.string().optional(),
-  riskPercentage: z.number().optional(),
+  riskPercentage: z.coerce.number().optional(),
 });
