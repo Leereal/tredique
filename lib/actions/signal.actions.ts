@@ -8,6 +8,7 @@ import Signal from "../database/models/signal.models";
 import User from "../database/models/user.model";
 import { handleError } from "../utils";
 import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs";
 
 const getSignalCategoryByName = async (name: string) => {
   return SignalCategory.findOne({ name: { $regex: name, $options: "i" } });
@@ -101,9 +102,12 @@ export async function updateSignal({
 }) {
   try {
     await connectToDatabase();
+    const loggedUser = await auth();
+    const userRole = loggedUser.sessionClaims?.role;
 
     const signalToUpdate = await Signal.findById(signal._id);
-    if (!signalToUpdate || signalToUpdate.sender.toHexString() !== userId) {
+
+    if (!signalToUpdate || userRole !== "Admin") {
       throw new Error("Unauthorized or signal not found");
     }
 
