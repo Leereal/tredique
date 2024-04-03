@@ -67,12 +67,12 @@ const ShowSignals = ({
 
     socket.on("broadcastedSignal", handleNewSignal);
     socket.on("deleteSignal", handleDeleteSignal);
-    socket.on("updateSignal", handleUpdateSignal);
+    socket.on("updatedSignal", handleUpdateSignal);
 
     return () => {
       socket.off("broadcastedSignal", handleNewSignal);
       socket.off("deleteSignal", handleDeleteSignal);
-      socket.off("updateSignal", handleUpdateSignal);
+      socket.off("updatedSignal", handleUpdateSignal);
     };
   }, [socket]);
 
