@@ -111,7 +111,6 @@ const ConnectionModal = ({
           className="flex flex-col gap-5"
         >
           <div className="flex flex-col gap-5 md:flex-row">
-            {console.log("Form Validations", form.formState.errors)}
             <FormField
               control={form.control}
               name="accountId"
