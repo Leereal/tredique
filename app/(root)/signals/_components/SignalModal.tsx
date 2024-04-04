@@ -90,7 +90,7 @@ const SignalModal = ({
         });
 
         if (updatedSignal) {
-          socket.emit("updateSignal", updatedSignal);
+          socket.emit("updatedSignal", updatedSignal);
           form.reset();
           setVisible();
         }

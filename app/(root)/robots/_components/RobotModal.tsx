@@ -36,13 +36,11 @@ const RobotModal = ({
   robot?: IRobot | null;
   type: string;
 }) => {
-  console.log(robot);
   const { user } = useSocket();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const initialValues =
     robot && type === "Update" ? { ...robot } : robotDefaultValues; // Use default values for new robot or current robot values for update
-  console.log("Initial values: ", initialValues);
   const form = useForm<z.infer<typeof robotFormSchema>>({
     resolver: zodResolver(robotFormSchema),
     defaultValues: initialValues as z.infer<typeof robotFormSchema>,

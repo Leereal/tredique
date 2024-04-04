@@ -14,7 +14,7 @@ const Dashboard = async () => {
 
   if (!userId) redirect("/sign-in");
 
-  const signals: ForexSignal[] = (await getAllSignals({ limit: 8 }))?.data;
+  const signals: ForexSignal[] = (await getAllSignals({ limit: 9 }))?.data;
   const dashData = await getDashData();
 
   const skeleton = () => {

@@ -37,7 +37,6 @@ const ConnectionModal = ({
   connection?: any | null;
   type: string;
 }) => {
-  console.log(connection);
   const { user } = useSocket();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const initialValues =
