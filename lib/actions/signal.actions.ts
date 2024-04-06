@@ -145,7 +145,7 @@ export async function deleteSignal({
 // GET ALL SIGNAL
 export async function getAllSignals({
   searchQuery = "",
-  limit = 12,
+  limit = 100,
   page = 1,
   signalCategory = "",
 }: {

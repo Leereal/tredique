@@ -16,6 +16,13 @@ export const navLinks = [
     isActive: true,
   },
   {
+    label: "Calculator",
+    route: "/calculator",
+    icon: "/assets/icons/calculator.svg",
+    isAdmin: false,
+    isActive: true,
+  },
+  {
     label: "Robots",
     route: "/robots",
     icon: "/assets/icons/robot-face.svg",
@@ -65,7 +72,38 @@ export const navLinks = [
     isActive: true,
   },
 ];
-
+export const socialLinks = [
+  {
+    label: "X",
+    icon: "/assets/icons/x.svg",
+    link: "https://x.com/tredique",
+    btnMessage: "Follow Us",
+  },
+  {
+    label: "Facebook",
+    icon: "/assets/icons/facebook.svg",
+    link: "https://facebook.com/tredique",
+    btnMessage: "Follow Us",
+  },
+  {
+    label: "Instagram",
+    icon: "/assets/icons/instagram.svg",
+    link: "https://instagram.com/tredique",
+    btnMessage: "Follow Us",
+  },
+  {
+    label: "Whatsapp",
+    icon: "/assets/icons/whatsapp.svg",
+    link: "https://whatsapp.com/tredique",
+    btnMessage: "Join Us",
+  },
+  {
+    label: "Telegram",
+    icon: "/assets/icons/telegram.svg",
+    link: "https://telegram.com/tredique",
+    btnMessage: "Join Us",
+  },
+];
 export const plans = [
   {
     _id: 1,
