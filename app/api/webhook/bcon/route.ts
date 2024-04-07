@@ -12,11 +12,11 @@ export async function POST(request: Request) {
     secret,
   } = await request.json();
 
-  if (secret !== bconKey) {
-    return new Response("Unauthorized", {
-      status: 401,
-    });
-  }
+  //   if (secret !== bconKey) {
+  //     return new Response("Unauthorized", {
+  //       status: 401,
+  //     });
+  //   }
 
   const valueInBTC = parseInt(stringValue, 10) / 100000000;
 

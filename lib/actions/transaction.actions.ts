@@ -143,7 +143,8 @@ export async function getBitcoinAddress({
       credits: credits,
       plan: plan,
     });
-    return newOrder;
+
+    return JSON.parse(JSON.stringify(newOrder));
   } catch (error) {
     handleError(error);
   }
