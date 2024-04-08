@@ -7,8 +7,7 @@ const TransactionSchema = new Schema({
   },
   stripeId: {
     type: String,
-    required: true,
-    unique: true,
+    required: false,
   },
   amount: {
     type: Number,

@@ -132,7 +132,9 @@ export async function getBitcoinAddress({
       throw new Error("Failed to get cryptoCurrency ratee");
     }
     const cryptoCurrencyRate = cryptoResponse.data.data.price;
-    const cryptoPrice = fiatAmount / cryptoCurrencyRate;
+    const cryptoPrice = parseFloat(
+      (fiatAmount / cryptoCurrencyRate).toFixed(8)
+    );
 
     const newOrder = new CryptoTransaction({
       amount: fiatAmount,
@@ -143,6 +145,8 @@ export async function getBitcoinAddress({
       credits: credits,
       plan: plan,
     });
+
+    await newOrder.save();
 
     return JSON.parse(JSON.stringify(newOrder));
   } catch (error) {

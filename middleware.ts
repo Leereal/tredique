@@ -6,12 +6,14 @@ export default authMiddleware({
     "/api/settings",
     "/api/webhook/clerk",
     "/api/webhook/stripe",
+    "/api/webhook/bcon",
     "/api/uploadthing",
     "/",
   ],
   ignoredRoutes: [
     "/api/webhook/clerk",
     "/api/webhook/stripe",
+    "/api/webhook/bcon",
     "/api/uploadthing",
   ],
   afterAuth(auth, req, evt) {

@@ -18,7 +18,7 @@ const CryptoTransactionSchema = new Schema(
       type: String,
       required: true,
     },
-    walletAddress: {
+    address: {
       type: String,
       required: true,
     },
