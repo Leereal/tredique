@@ -43,18 +43,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      appearance={{
-        variables: { colorPrimary: "#624cf5" },
-      }}
-    >
-      <PrimeReactProvider>
-        <html lang="en">
-          <body className={cn("font-IBMPlex antialiased", IBMPlex.variable)}>
-            {children}
-          </body>
-        </html>
-      </PrimeReactProvider>
-    </ClerkProvider>
+    // <ClerkProvider
+    //   appearance={{
+    //     variables: { colorPrimary: "#624cf5" },
+    //   }}
+    // >
+    //   <PrimeReactProvider>
+    //     <html lang="en">
+    //       <body className={cn("font-IBMPlex antialiased", IBMPlex.variable)}>
+    //         {children}
+    //       </body>
+    //     </html>
+    //   </PrimeReactProvider>
+    // </ClerkProvider>
+    <html>
+      <body>Down</body>
+    </html>
   );
 }
